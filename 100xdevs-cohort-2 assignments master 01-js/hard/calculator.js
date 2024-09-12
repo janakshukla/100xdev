@@ -17,9 +17,47 @@
 */
 
 class Calculator {
+  constructor() {
+    this.res = 0;
+  }
+  add(number) {
+    return (this.res += number);
+  }
+  subtract(number) {
+    return (this.res -= number);
+  }
+  multiply(number) {
+    return (this.res *= number);
+  }
+  divide(number) {
+    if (number === 0) {
+      throw new Error("invailid input");
+    }
+    return (this.res /= number);
+  }
+  clear() {
+    this.res = 0;
+  }
+  getResult() {
+    return this.res;
+  }
 
-  
-
+  calculate(exp) {
+    const withoutspacexp = exp.replace(/\s+/g, "");
+    const match = withoutspacexp.match(/[^0-9()+\-*/.]/);
+    if (match) {
+      throw new Error("invilid input");
+    }
+    try {
+      const res = eval(withoutspacexp);
+      if (!Number.isFinite(res)) {
+        throw new Error("number is infinite");
+      }
+      this.res = res;
+    } catch (error) {
+      throw new Error("problem during evalution");
+    }
+  }
 }
 
 module.exports = Calculator;
